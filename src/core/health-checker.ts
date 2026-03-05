@@ -14,10 +14,10 @@ export interface HealthResult {
   raw?: GatewayHealth;
 }
 
-export function checkHealth(info: OpenClawInfo): HealthResult {
+export async function checkHealth(info: OpenClawInfo): Promise<HealthResult> {
   const start = Date.now();
 
-  const health = getGatewayHealth(info);
+  const health = await getGatewayHealth(info);
   const durationMs = Date.now() - start;
 
   if (!health) {

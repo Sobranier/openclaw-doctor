@@ -66,7 +66,14 @@ export function loadConfig(configPath?: string): DoctorConfig {
   const file = resolveConfigPath(configPath);
   if (existsSync(file)) {
     const raw = JSON.parse(readFileSync(file, "utf-8"));
-    return { ...defaults, ...raw };
+    return {
+      ...defaults,
+      ...raw,
+      notify: {
+        webhook: { ...defaults.notify.webhook, ...(raw.notify?.webhook ?? {}) },
+        system: { ...defaults.notify.system, ...(raw.notify?.system ?? {}) },
+      },
+    };
   }
   // First run: create global default config
   ensureDoctorHome();

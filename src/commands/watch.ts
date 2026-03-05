@@ -73,7 +73,7 @@ export async function watchDaemon(options: {
       consecutiveFailures = 0;
       throttle.record();
 
-      restartGateway(info);
+      await restartGateway(info);
 
       log("info", "Waiting 30s for gateway to start...");
       await new Promise((r) => setTimeout(r, 30_000));
@@ -128,10 +128,9 @@ function daemonize(options: {
     env: { ...process.env, OPENCLAW_DOCTOR_DAEMON: "1" },
   });
 
-  child.unref();
-
   const pid = child.pid!;
   writeFileSync(PID_FILE, String(pid));
+  child.unref();
 
   console.log(chalk.green(`Doctor started in background (PID ${pid})`));
   console.log(chalk.gray(`  Logs: ${outLog}`));

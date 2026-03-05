@@ -15,7 +15,7 @@ export async function gatewayStart(options: {
   const config = loadConfig(options.config);
   initLogger();
   const info = detectOpenClaw(options.profile ?? config.openclawProfile);
-  const result = startGateway(info);
+  const result = await startGateway(info);
   if (result.success) {
     console.log(chalk.green("Gateway started"));
   } else {
@@ -31,7 +31,7 @@ export async function gatewayStop(options: {
   const config = loadConfig(options.config);
   initLogger();
   const info = detectOpenClaw(options.profile ?? config.openclawProfile);
-  const result = stopGateway(info);
+  const result = await stopGateway(info);
   if (result.success) {
     console.log(chalk.green("Gateway stopped"));
   } else {
@@ -47,7 +47,7 @@ export async function gatewayRestart(options: {
   const config = loadConfig(options.config);
   initLogger();
   const info = detectOpenClaw(options.profile ?? config.openclawProfile);
-  const result = restartGateway(info);
+  const result = await restartGateway(info);
   if (result.success) {
     console.log(chalk.green("Gateway restarted"));
   } else {
