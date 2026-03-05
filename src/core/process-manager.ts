@@ -1,4 +1,6 @@
-import { execSync } from "node:child_process";
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
+const execAsync = promisify(exec);
 import { log, addRestartRecord } from "./logger.js";
 import {
   type OpenClawInfo,
@@ -13,25 +15,21 @@ export interface CommandResult {
   error?: string;
 }
 
-function runShell(command: string): CommandResult {
+async function runShell(command: string): Promise<CommandResult> {
   try {
-    const output = execSync(command, {
-      encoding: "utf-8",
-      timeout: 120_000,
-    }).trim();
-    return { success: true, output };
+    const { stdout } = await execAsync(command, { timeout: 120_000 });
+    return { success: true, output: stdout.trim() };
   } catch (err) {
-    const error =
-      err instanceof Error ? err.message : String(err);
+    const error = err instanceof Error ? err.message : String(err);
     return { success: false, error };
   }
 }
 
-export function restartGateway(info: OpenClawInfo): CommandResult {
+export async function restartGateway(info: OpenClawInfo): Promise<CommandResult> {
   const cmd = getRestartCommand(info);
   log("warn", `Restarting gateway: ${cmd}`);
 
-  const result = runShell(cmd);
+  const result = await runShell(cmd);
 
   if (result.success) {
     log("success", "Gateway restarted");
@@ -48,19 +46,19 @@ export function restartGateway(info: OpenClawInfo): CommandResult {
   return result;
 }
 
-export function startGateway(info: OpenClawInfo): CommandResult {
+export async function startGateway(info: OpenClawInfo): Promise<CommandResult> {
   const cmd = getStartCommand(info);
   log("info", `Starting gateway: ${cmd}`);
-  const result = runShell(cmd);
+  const result = await runShell(cmd);
   if (result.success) log("success", "Gateway started");
   else log("error", `Gateway start failed: ${result.error}`);
   return result;
 }
 
-export function stopGateway(info: OpenClawInfo): CommandResult {
+export async function stopGateway(info: OpenClawInfo): Promise<CommandResult> {
   const cmd = getStopCommand(info);
   log("info", `Stopping gateway: ${cmd}`);
-  const result = runShell(cmd);
+  const result = await runShell(cmd);
   if (result.success) log("success", "Gateway stopped");
   else log("error", `Gateway stop failed: ${result.error}`);
   return result;

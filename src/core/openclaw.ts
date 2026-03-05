@@ -2,6 +2,9 @@ import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { homedir } from "node:os";
 import { execSync } from "node:child_process";
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
+const execAsync = promisify(exec);
 
 export interface OpenClawInfo {
   configPath: string;
@@ -129,17 +132,17 @@ export function detectOpenClaw(profile = "default"): OpenClawInfo {
   return defaults;
 }
 
-export function runOpenClawCmd(
+export async function runOpenClawCmd(
   info: OpenClawInfo,
   args: string,
-): string | null {
+): Promise<string | null> {
   if (!info.cliBinPath) return null;
   try {
-    return execSync(`"${info.nodePath}" "${info.cliBinPath}" ${args}`, {
-      encoding: "utf-8",
+    const { stdout } = await execAsync(`"${info.nodePath}" "${info.cliBinPath}" ${args}`, {
       timeout: 30_000,
       env: { ...process.env, NODE_NO_WARNINGS: "1" },
-    }).trim();
+    });
+    return stdout.trim();
   } catch {
     return null;
   }
@@ -155,10 +158,10 @@ export interface GatewayHealth {
   agents: { agentId: string; name: string; isDefault: boolean }[];
 }
 
-export function getGatewayHealth(
+export async function getGatewayHealth(
   info: OpenClawInfo,
-): GatewayHealth | null {
-  const raw = runOpenClawCmd(info, "health --json");
+): Promise<GatewayHealth | null> {
+  const raw = await runOpenClawCmd(info, "health --json");
   if (!raw) return null;
   try {
     // Strip any non-JSON lines (deprecation warnings etc.)
