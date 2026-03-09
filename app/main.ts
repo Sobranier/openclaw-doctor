@@ -18,10 +18,12 @@ const DASHBOARD_URL = `http://localhost:${DASHBOARD_PORT}`;
 const HEALTH_INTERVAL_MS = 30_000;
 const SERVER_SCRIPT = path.join(__dirname, "../app/server-process.js");
 
-// Minimal 16x16 transparent PNG (placeholder — replace with real icon later)
-const ICON_B64 =
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA" +
-  "AklEQVR42mNk+A8AAQQBAScAIgsBAAAASUVORK5CYII=";
+// Icon paths (relative to app bundle Resources or dev project root)
+const ICON_PATH = path.join(
+  app.isPackaged
+    ? path.join(process.resourcesPath, "assets/icon.iconset/icon_16x16@2x.png")
+    : path.join(__dirname, "../assets/icon.iconset/icon_16x16@2x.png")
+);
 
 // ── State ──────────────────────────────────────────────────────────────────
 let tray: Tray | null = null;
@@ -136,7 +138,14 @@ function buildTrayMenu() {
 }
 
 function createTray() {
-  const icon = nativeImage.createFromDataURL(ICON_B64).resize({ width: 16, height: 16 });
+  let icon: Electron.NativeImage;
+  try {
+    icon = nativeImage.createFromPath(ICON_PATH);
+    // Mark as template for macOS menubar (auto dark/light adaptation)
+    icon.setTemplateImage(true);
+  } catch {
+    icon = nativeImage.createEmpty();
+  }
   tray = new Tray(icon);
   tray.setToolTip("OpenClaw Doctor — starting...");
   tray.setContextMenu(buildTrayMenu());
