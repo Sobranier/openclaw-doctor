@@ -33,6 +33,38 @@ ALL_ALIASES=(
   aiclaw
   megaclaw
   volclaw
+  # international
+  amazonclaw
+  amzclaw
+  awsclaw
+  metaclaw
+  fbclaw
+  xclaw
+  googleclaw
+  appleclaw
+  msclaw
+  nflxclaw
+  uberclaw
+  openaiclaw
+  anthropicclaw
+  nvdaclaw
+  # china brands
+  pddclaw
+  miclaw
+  duclaw
+  txclaw
+  bytclaw
+  dyclaw
+  ttclaw
+  ddclaw
+  bdclaw
+  jdclaw
+  blclaw
+  ksclaw
+  mtclaw
+  zhclaw
+  hwclaw
+  wxclaw
 )
 
 # Sync version from main package.json to all alias package.json files
