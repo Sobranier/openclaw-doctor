@@ -10,7 +10,10 @@ VERSION=$(node -p "require('./package.json').version")
 echo "🚀 Release: ${MAIN_NAME}@${VERSION}"
 
 # Collect alias manifests dynamically to avoid hand-maintained lists.
-mapfile -t ALIAS_MANIFESTS < <(ls package.*.json 2>/dev/null | sort || true)
+ALIAS_MANIFESTS=()
+while IFS= read -r f; do
+  ALIAS_MANIFESTS+=("$f")
+done < <(ls package.*.json 2>/dev/null | sort || true)
 
 echo "🔄 Syncing version ${VERSION} to alias manifests..."
 for manifest in "${ALIAS_MANIFESTS[@]}"; do
