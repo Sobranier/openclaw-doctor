@@ -58,10 +58,27 @@ echo ""
 echo "📦 Publishing main package ${MAIN_NAME}@${VERSION}..."
 npm publish --registry "$REGISTRY"
 
+# Packages permanently rejected by npm (name similarity / trademark policy).
+# Do not retry — they will always fail.
+NPM_REJECTED=("qclaw" "xclaw" "open-claw")
+
 for manifest in "${ALIAS_MANIFESTS[@]}"; do
   alias_name=$(node -p "require('./${manifest}').name")
   # Skip duplicate publish for main package alias manifest.
   if [ "$alias_name" = "$MAIN_NAME" ]; then
+    continue
+  fi
+
+  # Skip permanently rejected packages.
+  skip=false
+  for rejected in "${NPM_REJECTED[@]}"; do
+    if [ "$alias_name" = "$rejected" ]; then
+      skip=true
+      break
+    fi
+  done
+  if [ "$skip" = true ]; then
+    echo "⏭️  Skipping $alias_name (npm name policy rejection)"
     continue
   fi
 
