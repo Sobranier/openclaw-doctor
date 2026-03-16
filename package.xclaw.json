@@ -1,7 +1,7 @@
 {
   "name": "xclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "Extended OpenClaw CLI — alias for openclaw-cli with extra utilities.",
   "type": "module",
   "bin": {
     "xclaw": "./dist/index.js"
@@ -15,11 +15,8 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "extended",
+    "ai-gateway"
   ],
   "license": "MIT",
   "repository": {

@@ -1,7 +1,7 @@
 {
   "name": "openaiclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "OpenClaw CLI for OpenAI users — gateway watchdog compatible with OpenAI-powered assistants.",
   "type": "module",
   "bin": {
     "openaiclaw": "./dist/index.js"
@@ -15,11 +15,11 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
+    "openai",
+    "chatgpt",
+    "ai-gateway",
     "watchdog",
-    "health-check"
+    "gpt"
   ],
   "license": "MIT",
   "repository": {

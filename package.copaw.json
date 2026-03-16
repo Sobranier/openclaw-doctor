@@ -1,7 +1,7 @@
 {
   "name": "copaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "Co-pilot paw — AI gateway watchdog companion. Alias of openclaw-cli.",
   "type": "module",
   "bin": {
     "copaw": "./dist/index.js"
@@ -15,11 +15,9 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "copilot",
+    "ai-gateway",
+    "companion"
   ],
   "license": "MIT",
   "repository": {

@@ -1,7 +1,7 @@
 {
   "name": "appleclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "OpenClaw CLI for macOS — native AI gateway watchdog and manager for Apple Silicon.",
   "type": "module",
   "bin": {
     "appleclaw": "./dist/index.js"
@@ -15,11 +15,10 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "macos",
+    "apple-silicon",
+    "arm64",
+    "ai-gateway"
   ],
   "license": "MIT",
   "repository": {

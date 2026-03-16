@@ -1,7 +1,7 @@
 {
   "name": "duclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "OpenClaw CLI for DuckDuckGo AI users. Alias of openclaw-cli.",
   "type": "module",
   "bin": {
     "duclaw": "./dist/index.js"
@@ -15,11 +15,9 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "duckduckgo",
+    "privacy",
+    "ai-gateway"
   ],
   "license": "MIT",
   "repository": {

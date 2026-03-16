@@ -1,7 +1,7 @@
 {
   "name": "hello-claw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "Hello OpenClaw! — the easiest way to get started with openclaw-cli gateway management.",
   "type": "module",
   "bin": {
     "hello-claw": "./dist/index.js"
@@ -15,11 +15,9 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "getting-started",
+    "ai-gateway",
+    "tutorial"
   ],
   "license": "MIT",
   "repository": {

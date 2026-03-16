@@ -1,7 +1,7 @@
 {
   "name": "kimiclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "OpenClaw CLI gateway watchdog — compatible with Kimi AI assistant. Alias of openclaw-cli.",
   "type": "module",
   "bin": {
     "kimiclaw": "./dist/index.js"
@@ -15,11 +15,10 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "kimi",
+    "moonshot",
+    "ai-gateway",
+    "watchdog"
   ],
   "license": "MIT",
   "repository": {

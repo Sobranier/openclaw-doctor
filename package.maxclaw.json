@@ -1,7 +1,7 @@
 {
   "name": "maxclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "Maximum reliability AI gateway watchdog — openclaw-cli with extended health checks.",
   "type": "module",
   "bin": {
     "maxclaw": "./dist/index.js"
@@ -15,11 +15,9 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "reliability",
+    "high-availability",
+    "ai-gateway"
   ],
   "license": "MIT",
   "repository": {

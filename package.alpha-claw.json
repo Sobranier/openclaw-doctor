@@ -1,7 +1,7 @@
 {
   "name": "alpha-claw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "Alpha AI gateway monitor — lightweight alias for openclaw-cli.",
   "type": "module",
   "bin": {
     "alpha-claw": "./dist/index.js"
@@ -15,11 +15,8 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "lightweight",
+    "ai-gateway"
   ],
   "license": "MIT",
   "repository": {

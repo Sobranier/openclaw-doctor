@@ -1,7 +1,7 @@
 {
   "name": "ksclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "OpenClaw gateway watchdog for Kingsoft AI services. Alias of openclaw-cli.",
   "type": "module",
   "bin": {
     "ksclaw": "./dist/index.js"
@@ -15,11 +15,8 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "kingsoft",
+    "ai-gateway"
   ],
   "license": "MIT",
   "repository": {

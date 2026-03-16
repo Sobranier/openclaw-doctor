@@ -1,7 +1,7 @@
 {
   "name": "miclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "Micro OpenClaw CLI — lightweight gateway watchdog. Alias of openclaw-cli.",
   "type": "module",
   "bin": {
     "miclaw": "./dist/index.js"
@@ -15,11 +15,9 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "micro",
+    "lightweight",
+    "ai-gateway"
   ],
   "license": "MIT",
   "repository": {

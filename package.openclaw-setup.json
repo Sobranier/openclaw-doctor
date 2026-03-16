@@ -1,7 +1,7 @@
 {
   "name": "openclaw-setup",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "Setup and configuration tool for OpenClaw. Alias of openclaw-cli.",
   "type": "module",
   "bin": {
     "openclaw-setup": "./dist/index.js"
@@ -15,11 +15,9 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "setup",
+    "configuration",
+    "ai-gateway"
   ],
   "license": "MIT",
   "repository": {

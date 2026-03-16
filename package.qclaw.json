@@ -1,7 +1,7 @@
 {
   "name": "qclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "Quick claw — fast alias for openclaw-cli gateway management.",
   "type": "module",
   "bin": {
     "qclaw": "./dist/index.js"
@@ -15,11 +15,8 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "quick",
+    "ai-gateway"
   ],
   "license": "MIT",
   "repository": {

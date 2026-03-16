@@ -1,7 +1,7 @@
 {
   "name": "clawjs",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "JavaScript/Node.js gateway watchdog for OpenClaw AI assistant. Alias of openclaw-cli.",
   "type": "module",
   "bin": {
     "clawjs": "./dist/index.js"
@@ -15,11 +15,10 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "nodejs",
+    "javascript",
+    "ai-gateway",
+    "watchdog"
   ],
   "license": "MIT",
   "repository": {

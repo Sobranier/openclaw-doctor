@@ -1,7 +1,7 @@
 {
   "name": "easyclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "Easy-to-use AI gateway watchdog — the simplest way to manage openclaw-cli.",
   "type": "module",
   "bin": {
     "easyclaw": "./dist/index.js"
@@ -15,11 +15,9 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "easy",
+    "beginner-friendly",
+    "ai-gateway"
   ],
   "license": "MIT",
   "repository": {

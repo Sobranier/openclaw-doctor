@@ -1,7 +1,7 @@
 {
   "name": "metaclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "OpenClaw CLI for Meta AI users — gateway watchdog for LLaMA-powered AI assistants.",
   "type": "module",
   "bin": {
     "metaclaw": "./dist/index.js"
@@ -15,11 +15,11 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "meta",
+    "llama",
+    "meta-ai",
+    "ai-gateway",
+    "watchdog"
   ],
   "license": "MIT",
   "repository": {

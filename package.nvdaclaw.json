@@ -1,7 +1,7 @@
 {
   "name": "nvdaclaw",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog — alias for openclaw-cli. Visit https://openclaw-cli.app",
+  "description": "OpenClaw gateway watchdog for NVIDIA AI workloads. Alias of openclaw-cli.",
   "type": "module",
   "bin": {
     "nvdaclaw": "./dist/index.js"
@@ -15,11 +15,10 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
-    "watchdog",
-    "health-check"
+    "nvidia",
+    "gpu",
+    "ai-gateway",
+    "watchdog"
   ],
   "license": "MIT",
   "repository": {

@@ -1,7 +1,7 @@
 {
   "name": "openclaw-cli",
   "version": "0.4.0",
-  "description": "AI assistant gateway watchdog for OpenClaw. Visit https://openclaw-cli.app",
+  "description": "AI gateway watchdog for OpenClaw — monitor, start, stop and auto-restart your AI assistant gateway from the CLI. Visit https://openclaw-cli.app",
   "type": "module",
   "bin": {
     "openclaw-cli": "./dist/index.js",
@@ -22,11 +22,14 @@
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai",
-    "daemon",
-    "gateway",
+    "ai-gateway",
     "watchdog",
-    "health-check"
+    "ai-assistant",
+    "gateway-monitor",
+    "daemon",
+    "health-check",
+    "cli-tool",
+    "macos"
   ],
   "license": "MIT",
   "repository": {
