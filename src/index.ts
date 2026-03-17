@@ -11,6 +11,7 @@ import { memoryStatus, memorySearch, memoryCompact } from "./commands/memory.js"
 import { startDashboard } from "./dashboard/server.js";
 import { detectOpenClaw } from "./core/openclaw.js";
 import { telemetryOn, telemetryOff, telemetryStatus } from "./commands/telemetry.js";
+import { remoteLogin, remoteEnable, remoteDisable, remoteStatus } from "./commands/remote.js";
 import { printFirstRunNotice } from "./telemetry.js";
 
 declare const __PACKAGE_VERSION__: string;
@@ -107,6 +108,21 @@ addGlobalOpts(
     .description("Compact agent memory (proxies to openclaw memory compact)")
     .option("--dry-run", "Preview without applying"),
 ).action(memoryCompact);
+
+// ── Remote monitoring ──
+
+const remote = program
+  .command("remote")
+  .description("Remote monitoring — report gateway status to openclaw-cli.app");
+
+addGlobalOpts(remote.command("login").description("Authenticate and register this machine"))
+  .action(remoteLogin);
+addGlobalOpts(remote.command("enable").description("Enable remote reporting"))
+  .action(remoteEnable);
+addGlobalOpts(remote.command("disable").description("Disable remote reporting"))
+  .action(remoteDisable);
+addGlobalOpts(remote.command("status").description("Show remote monitoring config"))
+  .action(remoteStatus);
 
 // ── Logs: proxy to openclaw, but keep --doctor flag for our own logs ──
 

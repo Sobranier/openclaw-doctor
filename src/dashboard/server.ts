@@ -4,7 +4,8 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import chalk from "chalk";
-import { loadConfig, DOCTOR_LOG_DIR } from "../config.js";
+import { loadConfig, DOCTOR_LOG_DIR, DOCTOR_HOME } from "../config.js";
+import { hostname as osHostname } from "node:os";
 import { detectOpenClaw, runOpenClawCmd } from "../core/openclaw.js";
 import { checkHealth } from "../core/health-checker.js";
 import { getCheckHistory, getRestartHistory, log } from "../core/logger.js";
@@ -655,6 +656,53 @@ export function startDashboard(options: { config?: string; profile?: string }) {
     log("info", `Dashboard running at http://localhost:${port}`);
     console.log(chalk.green.bold(`\n  Dashboard: http://localhost:${port}\n`));
   });
+
+  // Remote reporting
+  const REMOTE_CONFIG_PATH = join(DOCTOR_HOME, "remote.json");
+
+  setInterval(async () => {
+    try {
+      if (!existsSync(REMOTE_CONFIG_PATH)) return;
+      const cfg = JSON.parse(readFileSync(REMOTE_CONFIG_PATH, "utf-8"));
+      if (!cfg.enabled || !cfg.machineToken) return;
+
+      const status = await checkHealth(info);
+      const body = {
+        machineId: cfg.machineId,
+        hostname: osHostname(),
+        os: process.platform + "/" + process.arch,
+        version: pkgVersion ?? "unknown",
+        gateway: {
+          healthy: status.healthy,
+          port: info.gatewayPort,
+          durationMs: status.durationMs ?? 0,
+          label: (info as any).launchdLabel ?? "",
+        },
+        agents: info.agents.map((a: any) => ({
+          id: a.id,
+          name: a.name,
+          isDefault: a.isDefault,
+        })),
+        channels: status.channels ?? [],
+        ts: Date.now(),
+      };
+
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 3000);
+      await fetch(cfg.reportUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + cfg.machineToken,
+        },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+    } catch {
+      /* fire and forget */
+    }
+  }, 30_000);
 }
 
 // === Change Summary ===
