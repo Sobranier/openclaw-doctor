@@ -32,8 +32,17 @@ publish_with_manifest() {
   local manifest="$1"
   local readme="$2"
 
-  cp package.json package.json.bak
-  cp README.md README.md.bak
+  # Save originals in memory (not disk) to avoid .bak corruption on failure
+  local orig_pkg orig_readme
+  orig_pkg=$(cat package.json)
+  orig_readme=$(cat README.md)
+
+  # Always restore originals on exit from this function
+  restore_originals() {
+    echo "$orig_pkg" > package.json
+    echo "$orig_readme" > README.md
+  }
+  trap restore_originals RETURN
 
   cp "$manifest" package.json
   if [ -f "$readme" ]; then
@@ -49,9 +58,6 @@ publish_with_manifest() {
   else
     echo "⚠️  ${pkg_name} publish failed (continuing)"
   fi
-
-  mv package.json.bak package.json
-  mv README.md.bak README.md
 }
 
 echo ""
