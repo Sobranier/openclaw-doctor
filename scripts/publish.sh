@@ -13,7 +13,7 @@ echo "🚀 Release: ${MAIN_NAME}@${VERSION}"
 ALIAS_MANIFESTS=()
 while IFS= read -r f; do
   ALIAS_MANIFESTS+=("$f")
-done < <(ls package.*.json 2>/dev/null | sort || true)
+done < <(ls aliases/manifests/package.*.json 2>/dev/null | sort || true)
 
 echo "🔄 Syncing version ${VERSION} to alias manifests..."
 for manifest in "${ALIAS_MANIFESTS[@]}"; do
