@@ -1,35 +1,23 @@
 {
-  "name": "openclaw-cli",
+  "name": "smartclaw",
   "version": "0.6.0",
-  "description": "AI gateway watchdog for OpenClaw — monitor, start, stop and auto-restart your AI assistant gateway from the CLI. Visit https://openclaw-cli.app",
+  "description": "Smart AI gateway watchdog — auto-healing OpenClaw monitor. Alias of openclaw-cli.",
   "type": "module",
   "bin": {
-    "openclaw-cli": "./dist/index.js",
-    "openclaw-doctor": "./dist/index.js"
+    "smartclaw": "./dist/index.js"
   },
   "scripts": {
     "build": "tsup",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
-    "lint": "tsc --noEmit",
-    "release": "bash scripts/publish.sh",
-    "app:start": "electron .",
-    "app:package": "electron-forge package",
-    "app:make": "electron-forge make",
-    "validate:aliases": "node scripts/validate-aliases.mjs",
-    "smoke:aliases": "bash scripts/smoke-aliases.sh"
+    "lint": "tsc --noEmit"
   },
   "keywords": [
     "openclaw",
     "openclaw-cli",
-    "ai-gateway",
-    "watchdog",
-    "ai-assistant",
-    "gateway-monitor",
-    "daemon",
-    "health-check",
-    "cli-tool",
-    "macos"
+    "smart",
+    "auto-heal",
+    "ai-gateway"
   ],
   "license": "MIT",
   "repository": {
@@ -46,16 +34,11 @@
     "node": ">=22"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.6.2",
     "commander": "^14.0.3"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^7.11.1",
-    "@electron-forge/maker-dmg": "^7.11.1",
-    "@electron-forge/maker-zip": "^7.11.1",
     "@types/node": "^25.3.3",
-    "electron": "^40.8.0",
-    "electron-builder": "^26.8.1",
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
@@ -64,7 +47,5 @@
   "bugs": {
     "url": "https://github.com/Sobranier/openclaw-cli/issues"
   },
-  "homepage": "https://openclaw-cli.app",
-  "main": "app-dist/main.js",
-  "productName": "OpenClaw CLI"
+  "homepage": "https://openclaw-cli.app"
 }
