@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="./README.zh-CN.md">中文文档</a> | <a href="https://openclaw-cli.app">🌐 官网</a>
+  <a href="./README.zh-CN.md">CN</a> | <a href="https://openclaw-cli.app">openclaw-cli.app</a>
 </p>
 
 <p align="center">
