@@ -1,11 +1,13 @@
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { homedir } from "node:os";
+import { homedir, platform } from "node:os";
 import { execSync } from "node:child_process";
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
 import * as http from "node:http";
 const execAsync = promisify(exec);
+
+const PLATFORM = platform();
 
 export interface OpenClawInfo {
   configPath: string;
@@ -28,22 +30,24 @@ function getOpenClawHome(profile: string): string {
 }
 
 function findOpenClawBin(): { nodePath: string; cliBinPath: string } | null {
-  // Check launchd plist first for exact paths
-  const plistDir = join(homedir(), "Library", "LaunchAgents");
-  if (existsSync(plistDir)) {
-    const plists = readdirSync(plistDir).filter((f) =>
-      f.includes("openclaw") && f.endsWith(".plist"),
-    );
-    for (const plist of plists) {
-      const content = readFileSync(join(plistDir, plist), "utf-8");
-      const nodeMatch = content.match(
-        /<string>(\/[^<]*\/bin\/node)<\/string>/,
+  // Check launchd plist first for exact paths (macOS only)
+  if (PLATFORM === "darwin") {
+    const plistDir = join(homedir(), "Library", "LaunchAgents");
+    if (existsSync(plistDir)) {
+      const plists = readdirSync(plistDir).filter((f) =>
+        f.includes("openclaw") && f.endsWith(".plist"),
       );
-      const cliMatch = content.match(
-        /<string>(\/[^<]*openclaw[^<]*\.(?:js|mjs))<\/string>/,
-      );
-      if (nodeMatch && cliMatch) {
-        return { nodePath: nodeMatch[1], cliBinPath: cliMatch[1] };
+      for (const plist of plists) {
+        const content = readFileSync(join(plistDir, plist), "utf-8");
+        const nodeMatch = content.match(
+          /<string>(\/[^<]*\/bin\/node)<\/string>/,
+        );
+        const cliMatch = content.match(
+          /<string>(\/[^<]*openclaw[^<]*\.(?:js|mjs))<\/string>/,
+        );
+        if (nodeMatch && cliMatch) {
+          return { nodePath: nodeMatch[1], cliBinPath: cliMatch[1] };
+        }
       }
     }
   }
@@ -60,6 +64,7 @@ function findOpenClawBin(): { nodePath: string; cliBinPath: string } | null {
 }
 
 function findLaunchdLabel(): string {
+  if (PLATFORM !== "darwin") return "ai.openclaw.gateway";
   const plistDir = join(homedir(), "Library", "LaunchAgents");
   if (!existsSync(plistDir)) return "ai.openclaw.gateway";
   const plists = readdirSync(plistDir).filter(
@@ -69,6 +74,19 @@ function findLaunchdLabel(): string {
     return plists[0].replace(".plist", "");
   }
   return "ai.openclaw.gateway";
+}
+
+function hasSystemdService(): boolean {
+  try {
+    const { status } = require("node:child_process").spawnSync(
+      "systemctl", ["--user", "status", "openclaw"],
+      { stdio: "ignore" },
+    );
+    // exit 0 = active, 3 = inactive/dead — both mean the unit file exists
+    return status === 0 || status === 3;
+  } catch {
+    return false;
+  }
 }
 
 export function detectOpenClaw(profile = "default"): OpenClawInfo {
@@ -207,20 +225,48 @@ export async function getGatewayHealth(
 }
 
 export function getRestartCommand(info: OpenClawInfo): string {
+  if (PLATFORM === "win32") {
+    throw new Error("Windows native is not supported. Please use WSL 2.");
+  }
+  if (PLATFORM === "linux") {
+    if (hasSystemdService()) {
+      return "systemctl --user restart openclaw";
+    }
+    // Fallback: kill + re-launch
+    return `(pgrep -f "openclaw.*gateway" | xargs kill 2>/dev/null || true) && nohup openclaw gateway > /dev/null 2>&1 &`;
+  }
+  // macOS
   const uid = process.getuid?.() ?? 501;
   return `launchctl kickstart -k gui/${uid}/${info.launchdLabel}`;
 }
 
 export function getStopCommand(info: OpenClawInfo): string {
+  if (PLATFORM === "win32") {
+    throw new Error("Windows native is not supported. Please use WSL 2.");
+  }
+  if (PLATFORM === "linux") {
+    if (hasSystemdService()) {
+      return "systemctl --user stop openclaw";
+    }
+    return `pgrep -f "openclaw.*gateway" | xargs kill 2>/dev/null || true`;
+  }
+  // macOS
   const uid = process.getuid?.() ?? 501;
-  // Use bootout to truly stop the service so launchd KeepAlive won't revive it.
-  // Fall back to kill SIGTERM if bootout fails (service not loaded).
   return `launchctl bootout gui/${uid}/${info.launchdLabel} 2>/dev/null || launchctl kill SIGTERM gui/${uid}/${info.launchdLabel} 2>/dev/null || true`;
 }
 
 export function getStartCommand(info: OpenClawInfo): string {
+  if (PLATFORM === "win32") {
+    throw new Error("Windows native is not supported. Please use WSL 2.");
+  }
+  if (PLATFORM === "linux") {
+    if (hasSystemdService()) {
+      return "systemctl --user start openclaw";
+    }
+    return `nohup openclaw gateway > /dev/null 2>&1 &`;
+  }
+  // macOS
   const uid = process.getuid?.() ?? 501;
-  // Re-bootstrap plist if service was booted out, then kickstart.
   const plistDir = `${process.env.HOME}/Library/LaunchAgents`;
   return `(launchctl bootstrap gui/${uid} ${plistDir}/${info.launchdLabel}.plist 2>/dev/null || true) && launchctl kickstart gui/${uid}/${info.launchdLabel}`;
 }

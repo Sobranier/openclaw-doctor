@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import { writeFileSync, unlinkSync, existsSync } from "node:fs";
+import { platform } from "node:os";
 import { loadConfig, STOP_FLAG_FILE, DOCTOR_HOME } from "../config.js";
 import { ensureDoctorHome } from "../config.js";
 import { detectOpenClaw } from "../core/openclaw.js";
@@ -11,6 +12,12 @@ import {
 import { initLogger } from "../core/logger.js";
 import { trackCommand } from "../telemetry.js";
 
+function showPlatformNote() {
+  if (platform() === "linux") {
+    console.log(chalk.cyan("Running on Linux/WSL. Using systemd or direct process management (launchctl not available)."));
+  }
+}
+
 declare const __PACKAGE_VERSION__: string;
 const _VER = typeof __PACKAGE_VERSION__ !== "undefined" ? __PACKAGE_VERSION__ : undefined;
 
@@ -18,6 +25,7 @@ export async function gatewayStart(options: {
   config?: string;
   profile?: string;
 }) {
+  showPlatformNote();
   const config = loadConfig(options.config);
   initLogger();
   ensureDoctorHome();
@@ -39,6 +47,7 @@ export async function gatewayStop(options: {
   config?: string;
   profile?: string;
 }) {
+  showPlatformNote();
   const config = loadConfig(options.config);
   initLogger();
   ensureDoctorHome();
@@ -61,6 +70,7 @@ export async function gatewayRestart(options: {
   config?: string;
   profile?: string;
 }) {
+  showPlatformNote();
   const config = loadConfig(options.config);
   initLogger();
   ensureDoctorHome();
